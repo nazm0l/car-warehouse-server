@@ -18,7 +18,8 @@ async function run(){
         try{
             await client.connect();
             const carCollection = client.db('carWarehouse').collection('cars');
-
+            
+            // total car
             app.get('/cars', async(req, res) =>{
                 const query = {};
                 const cursor = carCollection.find(query);
@@ -27,12 +28,27 @@ async function run(){
                 res.send(cars);
             });
 
+            // single car
             app.get('/cars/:id', async(req, res) =>{
                 const id = req.params.id;
                 const query = {_id: ObjectId(id)};
                 const cars = await carCollection.findOne(query);
                 res.send(cars);
               });
+
+            app.put('/cars/:id', async(req, res) =>{
+                const id = req.params.id;
+                const query = {_id: ObjectId(id)};
+                const newQuantity = req.body
+                const options = {upsert: true}
+                const updateDoc ={
+                    $set: {
+                            quantity: newQuantity.quantity
+                    }
+                }
+                const result = await carCollection.updateOne(query, updateDoc, options);
+                res.send(result);
+            })
         }
         finally{
 
