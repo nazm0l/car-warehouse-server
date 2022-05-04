@@ -36,6 +36,14 @@ async function run(){
                 res.send(cars);
               });
 
+            //   add car 
+              app.post('/cars', async(req, res) =>{
+                const newCar = req.body;
+                const result = await carCollection.insertOne(newCar);
+                res.send(result);
+              });
+
+            //   update quantity
             app.put('/cars/:id', async(req, res) =>{
                 const id = req.params.id;
                 const query = {_id: ObjectId(id)};
@@ -47,6 +55,14 @@ async function run(){
                     }
                 }
                 const result = await carCollection.updateOne(query, updateDoc, options);
+                res.send(result);
+            })
+
+            // delete car 
+            app.delete('/cars/:id', async(req, res) => {
+                const id = req.params.id;
+                const query = {_id: ObjectId(id)};
+                const result = await carCollection.deleteOne(query);
                 res.send(result);
             })
         }
