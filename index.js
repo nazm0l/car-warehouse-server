@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
@@ -19,9 +20,26 @@ async function run(){
             await client.connect();
             const carCollection = client.db('carWarehouse').collection('cars');
             
+            // jwt 
+            // app.get('/token', async(req, res)=>{
+            //     const user = req.body;
+            //     const token = jwt.sign(user, process.env.SECRET_TOKEN,{expiresIn:'5d'})
+            //     res.send(token);
+            // })
+
+
             // total car
             app.get('/cars', async(req, res) =>{
                 const query = {};
+                const cursor = carCollection.find(query);
+                const cars = await cursor.toArray();
+
+                res.send(cars);
+            });
+            // user based car
+            app.get('/user', async(req, res) =>{
+                const email = req.query.email
+                const query = {email};
                 const cursor = carCollection.find(query);
                 const cars = await cursor.toArray();
 
