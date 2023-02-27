@@ -7,7 +7,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 
-app.use(cors({ origin: "https://jade-frightened-hare.cyclic.app" }));
+app.use(cors());
 app.use(express.json());
 
 function verifyToken(req, res, next) {
