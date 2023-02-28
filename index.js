@@ -26,7 +26,7 @@ function verifyToken(req, res, next) {
   });
 }
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mbq1u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@carwarehousecluster.sfnnzhx.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -111,9 +111,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Running your first api");
+  res.send("Welcome to Car Warehouse");
 });
 
 app.listen(port, () => {
-  console.log("Server rumming");
+  console.log("Server running");
 });
